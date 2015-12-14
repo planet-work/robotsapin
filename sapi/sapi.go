@@ -4,24 +4,50 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
+	//"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"os/user"
-	"time"
+	"strings"
+	//"time"
+	"github.com/jmoiron/sqlx"
+	_ "github.com/mattn/go-sqlite3"
 )
 
+var db *sqlx.DB
+var ConfigDir string
 var Settings APISettings
 var logD *log.Logger
 var logI *log.Logger
 var logE *log.Logger
+var Status SapiStatus
+
+func Version() string {
+	out, err := exec.Command("git", "describe").Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	v := strings.TrimSuffix(string(out), "\n")
+
+	return v
+}
 
 type Me struct {
 	Username string `json:"username"`
 }
 
+type SapiStatus struct {
+	Version string        `json:"version"`
+	Display DisplayStatus `json:"display"`
+	Topper  ToperStatus   `json:"topper"`
+	Music   MusicStatus   `json:"music"`
+	Sensors SensorsStatus `json:"sensors"`
+}
+
 type APISettings struct {
+	DbPath        string `json:"db_path"`
 	MusicDir      string `json:"music_dir"`
 	PictureDir    string `json:"pictures_dir"`
 	AdminPassword string `json:"admin_password"`
@@ -34,9 +60,14 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r)
 }
 
+func GetStatus() (*SapiStatus, error) {
+	return &Status, nil
+}
+
 func loginHandler(w http.ResponseWriter, r *http.Request) {
-	var sessid string
-	var id, pwd string
+	//var sessid string
+	//var id string
+	var pwd string
 	//var tk Token
 	err := r.ParseForm()
 	if err != nil {
@@ -44,14 +75,14 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	if r.FormValue("contact_id") != "" {
 		fmt.Printf("%v\n", r.FormValue("contact_id"))
-		id = r.FormValue("contact_id")
+		//id = r.FormValue("contact_id")
 	}
 	if r.FormValue("password") != "" {
 		fmt.Printf("%v\n", r.FormValue("password"))
 		pwd = r.FormValue("password")
 	}
 
-	if pwd == AdminPassword {
+	if pwd == Settings.AdminPassword {
 		out := "xxxxx"
 		fmt.Printf("%v\n", out)
 		w.Header().Set("Content-Type", "application/json")
@@ -59,6 +90,17 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		fmt.Println("wrong")
 	}
+}
+
+func isSessionActive(sessid string) bool {
+	/*
+		var id string
+			err := db.QueryRow("SELECT id FROM session WHERE id = $1", sessid).Scan(&id)
+			if err != nil {
+				fmt.Printf("wrong: %v\n", err)
+				return false
+			}*/
+	return true
 }
 
 func meHandler(w http.ResponseWriter, r *http.Request) {
@@ -146,12 +188,11 @@ func Log(handler http.Handler) http.Handler {
 }
 
 func PingDb() error {
-	return true
+	return nil
 }
 
 func Setup() {
 	var err error
-	var h, u, p, d string
 	DetectLogMode()
 	usr, err := user.Current()
 	if err != nil {
@@ -165,12 +206,12 @@ func Setup() {
 		if err != nil {
 			logE.Fatal("parsing settings.json failed: ", err)
 		}
+		dburi := fmt.Sprintf("sqlite:%s application_name=sapi", Settings.DbPath)
+		logD.Println(dburi)
+		db, err = sqlx.Open("sqlite3", dburi)
 	} else {
 		logE.Fatal(err)
 	}
-	sa.MusicDir = Settings.MusicDir
-	sa.PicturesDir = Settings.PicturesDir
-	sa.AdminPassword = Settings.AdminPassword
 }
 
 func initLogger(debugHandler, infoHandler, errorHandler io.Writer) {

@@ -1,6 +1,25 @@
-// API RESTful JSON partiellement conforme à la spec jsonapi.org
-// Réponses : {"data":{"id":96,"type":"mailboxes", "attributes":{...}}
-// Erreurs : {"errors":[{"status":"409","code":"object.duplicate","title":"Objet en double"...}]}
+// Package Sapin API (Christmas Tree API).
+//
+// the purpose of this application is to control a Christmas Tree
+//
+// Terms Of Service:
+//
+// there are no TOS at this moment, use at your own risk we take no responsibility
+//
+//     Schemes: http, https
+//     Host: api.sapin.io
+//     BasePath: /v1
+//     Version: 0.0.1
+//     License: MIT http://opensource.org/licenses/MIT
+//     Contact: Frederic VANNIRE<f.vanniere@planet-work.com> https://www.planet-work.com/
+//
+//     Consumes:
+//     - application/json
+//
+//     Produces:
+//     - application/json
+//
+// swagger:meta
 package main
 
 // @APIVersion 1.0.0
@@ -29,6 +48,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/planet-work/robotsapin/sapi"
+	"github.com/pmylund/go-cache"
 )
 
 var Engine *gin.Engine
@@ -37,6 +57,7 @@ var logI *log.Logger
 var logE *log.Logger
 var emptyList = make([]string, 0)
 var settings ServerSettings
+var failedLogins = cache.New(1*time.Hour, 1*time.Minute)
 
 type ServerSettings struct {
 	Port int `json:"port"`
@@ -105,6 +126,26 @@ func SapiGinError(c *gin.Context, err error) {
 	c.JSON(s, gin.H{"errors": e})
 }
 
+func objectHash(d interface{}) gin.H {
+	v := reflect.ValueOf(d)
+	var r gin.H
+	switch x := v.Interface().(type) {
+	case *APIDetails:
+		r = gin.H{"id": "api", "type": "apidetails", "attributes": x}
+	case *sapi.SapiStatus:
+		r = gin.H{"id": "status", "type": "status", "attributes": x}
+	case *sapi.Song:
+		r = gin.H{"id": x.Filename, "type": "song", "attributes": x}
+	case *sapi.Image:
+		r = gin.H{"id": x.Filename, "type": "image", "attributes": x}
+	case *sapi.LedSequence:
+		r = gin.H{"id": x.Id, "type": "ledsequence", "attributes": x}
+	default:
+		logE.Println("unknown object: ", x)
+	}
+	return r
+}
+
 func SapiGinResponse(d interface{}) gin.H {
 	return gin.H{"data": objectHash(d)}
 }
@@ -126,7 +167,12 @@ func OptionsHandler(c *gin.Context) {
 }
 
 func IndexHandler(c *gin.Context) {
-	c.String(http.StatusOK, "Wilkommen !")
+	c.String(http.StatusOK, "<a href=\"https://sapin.io\">https://sapin.io/</a>")
+}
+
+func StatusHandler(c *gin.Context) {
+	s, _ := sapi.GetStatus()
+	SapiGinResponse(s)
 }
 
 func HealthCheckHandler(c *gin.Context) {
@@ -173,8 +219,8 @@ func AuthRequired() gin.HandlerFunc {
 		}
 		failedLogins.Delete(c.Request.Header.Get("X-Real-Ip"))
 		uc := sapi.NewUserContext(t)
-		uc.SetRight(c.Request.RequestURI, c.Request.Method)
-		c.Set("contact_id", t.ContactID)
+		//uc.SetRight(c.Request.RequestURI, c.Request.Method)
+		c.Set("user_id", t.UserID)
 		c.Set("uc", uc)
 		//pre
 		c.Next()
@@ -226,38 +272,46 @@ func init() {
 	{
 		index.GET("", IndexHandler)
 		index.GET("healthcheck", HealthCheckHandler)
+		index.GET("status", StatusHandler)
 	}
 	about := Engine.Group("/about")
-	about.Use(AuthRequired())
+	//about.Use(AuthRequired())
 	{
-		about.GET("/me", AboutMe)
 		about.GET("/api", AboutAPI)
 	}
 	music := Engine.Group("/music")
-	music.Use(AuthRequired())
+	//music.Use(AuthRequired())
 	{
-		music.POST("", OrganizationPost)
-		music.GET("/", OrganizationListGet)
-		music.GET("/:organization", OrganizationGet)
+		//music.POST("/:filename", MusicPost)
+		music.GET("/", MusicListGet)
+		music.GET("/:filename", MusicGet)
 	}
 	display := Engine.Group("/display")
-	display.Use(AuthRequired())
+	//	display.Use(AuthRequired())
 	{
-		display.POST("", DisplayPost)
-		display.GET("/", DisplayListGet)
-		display.DELETE("/", DisplayClear)
+		display.GET("/", DisplayList)
+		display.GET("/:filename", DisplayImage)
+		display.POST("", DisplayData)
+	}
+	topper := Engine.Group("/topper")
+	{
+		topper.GET("/", TopperList)
+		topper.GET("/:seqId", TopperGet)
+		//topper.POST("", DisplayData)
 	}
 	apidoc := Engine.Group("/api-doc")
 	apidoc.GET("", ApiDoc)
-	login := Engine.Group("/auth/token")
-	{
-		login.POST("", TokenHandler)
-	}
-	logout := Engine.Group("/auth/logout")
-	logout.Use(AuthRequired())
-	{
-		logout.GET("", LogoutHandler)
-	}
+	/*
+		login := Engine.Group("/auth/token")
+		{
+			login.POST("", TokenHandler)
+		}
+		logout := Engine.Group("/auth/logout")
+		logout.Use(AuthRequired())
+		{
+			logout.GET("", LogoutHandler)
+		}
+	*/
 }
 
 func main() {

@@ -14,13 +14,8 @@ type APIDetails struct {
 }
 
 func NewAPIDetails() *APIDetails {
-	ad := APIDetails{Version: papi.Version(), Now: time.Now()}
+	ad := APIDetails{Version: sapi.Version(), Now: time.Now()}
 	return &ad
-}
-
-func AboutMe(c *gin.Context) {
-	uc := c.MustGet("uc").(*papi.UserContext)
-	c.JSON(http.StatusOK, gin.H{"data": gin.H{"type": "available", "attributes": gin.H{"whoami": uc.ContactID, "roles": uc.Roles, "tenants": uc.AvailableTenants(), "accounts": uc.AvailableAccounts(), "zones": uc.AvailableZones(), "contacts": uc.AvailableContacts()}}})
 }
 
 func AboutAPI(c *gin.Context) {
