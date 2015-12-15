@@ -49,38 +49,16 @@ angular.module('sapinApp', [
     function($resourceProvider, $stateProvider, $urlRouterProvider, $httpProvider, $translateProvider) {
       // State base router
       $resourceProvider.defaults.stripTrailingSlashes = false;
-      $urlRouterProvider.otherwise("/login");
+      $urlRouterProvider.otherwise("/status");
       $stateProvider
-        .state('login', {
-          url: "/login",
-          views: {
-            'sidebar': {
-              templateUrl: 'partials/nosidebar.html',
-            },
-            'content': {
-              templateUrl: 'partials/login.html',
-            }
-          }
-        })
-        .state('signup', {
-          url: "/signup",
-          views: {
-            'sidebar': {
-              templateUrl: 'partials/nosidebar.html',
-            },
-            'content': {
-              templateUrl: 'partials/signup.html',
-            }
-          }
-        })
-        .state('settings', {
-          url: "/settings",
+        .state('status', {
+          url: "/status",
           views: {
             'sidebar': {
               templateUrl: 'partials/sidebar.html',
             },
             'content': {
-              templateUrl: 'partials/settings.html',
+              templateUrl: 'partials/status.html',
             }
           }
 

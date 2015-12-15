@@ -27,7 +27,7 @@
     "flat-ui": "~2.2.2",
     "material-design-lite": "~1.0.5",
     "fui-angular": "~0.1.5",
-    "how-secure-is-my-password": "hsimp#~0.1.2"
+    "how-secure-is-my-password": "hsimp#~0.1.2",
+    "font-awesome": "~4.5.0"
   }
 }
-

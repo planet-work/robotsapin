@@ -34,7 +34,7 @@ func MusicPost(c *gin.Context) {
 	filename := c.Params.ByName("filename")
 	err := sapi.MusicPlay(filename)
 	if err == nil {
-		c.JSON(http.StatusOK, SapiGinArrayResponse("OK"))
+		c.JSON(http.StatusOK, "OK")
 		return
 	}
 	SapiGinError(c, err)

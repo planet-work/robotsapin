@@ -31,6 +31,7 @@ type Song struct {
 type MusicStatus struct {
 	Status   string `json:"status"`
 	SongName string `json:"song_name"`
+	Filename string `json:"filename"`
 	Position int    `json:"position"`
 }
 
@@ -119,9 +120,34 @@ func MusicPost() error {
 
 func MusicPlay(filename string) error {
 	logD.Println("Playing ", filename)
-	cmd := exec.Command("mpg123", Settings.MusicDir+"/"+filename)
+	Status.Music.Status = "..."
+	Status.Music.Filename = filename
+	Status.Music.SongName = filename
+	go func() {
+		logD.Println("mpg123", Settings.MusicDir+"/"+filename)
+		cmd := exec.Command("mpg123", "-R") //, Settings.MusicDir+"/"+filename)
+		stdin, err := cmd.StdinPipe()
+		if err != nil {
+			logE.Println(err)
+		}
+		stdout, err := cmd.StdoutPipe()
+		if err != nil {
+			logE.Println(err)
+		}
+		if err := cmd.Start(); err != nil {
+			logE.Println(err)
+		}
+		Status.Music.Status = "playing"
+		stdin.Write([]byte("LOAD" + Settings.MusicDir + "/" + filename))
+		x, _ := stdout.Reader.ReadString('\n')
+		if err := cmd.Wait(); err != nil {
+			logE.Println(err)
+		}
+		//Status.Music.Status = "stopped"
+		logD.Println("Song terminated")
+	}()
 	//var out bytes.Buffer
 	//cmd.Stdout = &out
-	err := cmd.Run()
-	return err
+	logD.Println("Return XXX")
+	return nil
 }
