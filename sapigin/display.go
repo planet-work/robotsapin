@@ -30,7 +30,7 @@ func DisplayList(c *gin.Context) {
 // @Success 200 {object} sapi.Song
 // @Failure 406 {object} error "Bad bad bad"
 // @Router /music/:filename [get]
-func DisplayImage(c *gin.Context) {
+func DisplayPost(c *gin.Context) {
 	filename := c.Params.ByName("filename")
 	err := sapi.DisplayImage(filename)
 	if err == nil {
@@ -40,7 +40,7 @@ func DisplayImage(c *gin.Context) {
 	SapiGinError(c, err)
 }
 
-func DisplayData(c *gin.Context) {
+func DisplayPostData(c *gin.Context) {
 	data := c.Params.ByName("data")
 	err := sapi.DisplayData(data)
 	if err == nil {

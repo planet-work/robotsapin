@@ -1,0 +1,33 @@
+{
+  "name": "sapin-exp",
+  "description": "A starter project for AngularJS",
+  "version": "0.0.1",
+  "homepage": "https://github.com/angular/angular-seed",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "1.4.7",
+    "angular-messages": "1.4.x",
+    "angular-route": "1.4.x",
+    "angular-loader": "1.4.x",
+    "angular-mocks": "~1.4.x",
+    "angular-resource": "1.4.x",
+    "angular-i18n": "1.4.x",
+    "html5-boilerplate": "~4.3.0",
+    "bootstrap": "3.3.1",
+    "ng-table": "1.0.x",
+    "angular-xeditable": "0.1.8",
+    "angular-bootstrap": "~0.13.x",
+    "jquery": "2.1.x",
+    "angular-ui-router": "0.2.x",
+    "angular-translate": "2.7.x",
+    "angular-translate-loader-static-files": "2.7.x",
+    "angular-truncate": "",
+    "bootflat": "*",
+    "flat-ui": "~2.2.2",
+    "material-design-lite": "~1.0.5",
+    "fui-angular": "~0.1.5",
+    "how-secure-is-my-password": "hsimp#~0.1.2"
+  }
+}
+

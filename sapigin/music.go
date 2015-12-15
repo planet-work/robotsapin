@@ -29,8 +29,8 @@ func MusicListGet(c *gin.Context) {
 // @Accept  json
 // @Success 200 {object} sapi.Song
 // @Failure 406 {object} error "Bad bad bad"
-// @Router /music/:filename [get]
-func MusicGet(c *gin.Context) {
+// @Router /music/:filename [post]
+func MusicPost(c *gin.Context) {
 	filename := c.Params.ByName("filename")
 	err := sapi.MusicPlay(filename)
 	if err == nil {

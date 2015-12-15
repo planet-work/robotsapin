@@ -172,7 +172,8 @@ func IndexHandler(c *gin.Context) {
 
 func StatusHandler(c *gin.Context) {
 	s, _ := sapi.GetStatus()
-	SapiGinResponse(s)
+	logD.Println(s)
+	c.JSON(http.StatusOK, SapiGinResponse(s))
 }
 
 func HealthCheckHandler(c *gin.Context) {
@@ -284,14 +285,14 @@ func init() {
 	{
 		//music.POST("/:filename", MusicPost)
 		music.GET("/", MusicListGet)
-		music.GET("/:filename", MusicGet)
+		music.POST("/:filename", MusicPost)
 	}
 	display := Engine.Group("/display")
 	//	display.Use(AuthRequired())
 	{
 		display.GET("/", DisplayList)
-		display.GET("/:filename", DisplayImage)
-		display.POST("", DisplayData)
+		display.POST("/:filename", DisplayPost)
+		display.POST("", DisplayPostData)
 	}
 	topper := Engine.Group("/topper")
 	{

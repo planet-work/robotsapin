@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="clientApp" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>clients.pw.fr</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--<link rel="stylesheet" href="lib/html5-boilerplate/css/normalize.css">
+  <link rel="stylesheet" href="lib/html5-boilerplate/css/main.css">-->
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+  <!-- <link rel="stylesheet" href="lib/flatui/css/flat-ui.css"> -->
+  <link rel="stylesheet" href="lib/ng-table/dist/ng-table.css">
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/font-awesome.min.css" />
+  <link rel="stylesheet" href="lib/flat-ui/dist/css/flat-ui.min.css" />
+  <link rel="stylesheet" href="lib/angular-xeditable/dist/css/xeditable.css" />
+  <!--<script src="lib/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>-->
+  <!--<link rel="stylesheet" href="lib/bootflat/css/bootflat.css">-->
+  <script src="lib/jquery/dist/jquery.js"></script>
+  <script src="lib/angular/angular.js"></script>
+</head>
+
+<body ng-cloak>
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-controller="NavBarCtrl">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" ng-hide="$state.is('login')" ng-class="ng-hide">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand">clients.pw.fr</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right pull-right" style="text-align: right" ng-hide="$state.is('login')" ng-class="ng-hide">
+          <li>
+            <a ui-sref="dashboard" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.dashboard' | translate }}</a>
+          </li>
+          <li>
+            <a ui-sref="hosting.list" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.hosting' | translate }}</a>
+          </li>
+          <li><a ui-sref="account.list" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.accounts' | translate }}</a>
+          </li>
+          <li><a ui-sref="contact.list" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.contacts' | translate }}</a>
+          </li>
+          <li><a ui-sref="domain.list" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.domains' | translate }}</a>
+          </li>
+          <li><a ui-sref="zone.list" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.zones' | translate }}</a>
+          </li>
+          <li><a ui-sref="certificate.list" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.certificates' | translate }}</a>
+          </li>
+          <li><a ui-sref="web.aggregate" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.web' | translate }}</a>
+          </li>
+          <li><a ui-sref="database.aggregate" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.databases' | translate }}</a>
+          </li>
+          <li><a ui-sref="mail.aggregate" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.messaging' | translate }}</a>
+          </li>
+          <li><a ui-sref="settings" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.settings' | translate }}</a>
+          </li>
+          <li><a ui-sref="logout" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.logout' | translate }}</a>
+         </li>
+          <li dropdown class="dropdown hidden-xs">
+                          <a href="#" class="dropdown-toggle" dropdown-toggle>{{ contact_id }} <b class="caret"></b>
+                                <span class="dropdown-arrow"></span></a>
+            <!--<button id="split-button" type="button" class="btn btn-inverse" dropdown-toggle>Action
+              <span class="caret"></span>
+                          </button>-->
+            <!--<button type="button" class="btn btn-inverse" dropdown-toggle>
+              <span class="sr-only">Split button!</span>
+                          </button>-->
+            <ul class="dropdown-menu" role="menu" aria-labelledby="split-button">
+              <li role="menuitem"><a href="#">Another action</a>
+              </li>
+              <li role="menuitem"><a ui-sref="settings">{{ 'ui.settings' | translate }}</a>
+              </li>
+              <li class="divider"></li>
+              <li role="menuitem"><a ui-sref="logout">{{ 'ui.logout' | translate }}</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!--<form class="navbar-form navbar-right">
+          <input type="text" class="form-control" placeholder="Search...">
+        </form>-->
+      </div>
+    </div>
+  </nav>
+
+  <!-- content begin -->
+  <!--[if lt IE 7]>
+  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+  <div class="container-fluid">
+    <div class="row row-offcanvas row-offcanvas-left">
+      <div ui-view="sidebar"></div>
+      <div ui-view="content"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div>
+      <p class="pull-right">state: {{$state.current.name}} - <span>clientApp v</span><span app-version></span>
+      </p>
+    </div>
+  </footer>
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <script src="lib/angular-xeditable/dist/js/xeditable.js"></script>
+  <script src="lib/flat-ui/dist/js/flat-ui.min.js"></script>
+  <script src="lib/angular-i18n/angular-locale_fr.js"></script>
+  <script src="lib/angular-messages/angular-messages.js"></script>
+  <script src="lib/angular-route/angular-route.js"></script>
+  <script src="lib/angular-resource/angular-resource.js"></script>
+  <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="lib/angular-translate/angular-translate.js"></script>
+  <script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+  <script src="lib/ng-table/dist/ng-table.js"></script>
+  <script src="lib/angular-truncate/src/truncate.js"></script>
+  <script src="lib/fui-angular/fui.js"></script>
+  <script src="lib/fui-angular/fui-radio.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/controllers/controllers.js"></script>
+  <script src="js/controllers/account.js"></script>
+  <script src="js/controllers/contact.js"></script>
+  <script src="js/controllers/database.js"></script>
+  <script src="js/controllers/dashboard.js"></script>
+  <script src="js/controllers/domain.js"></script>
+  <script src="js/controllers/hosting.js"></script>
+  <script src="js/controllers/mail.js"></script>
+  <script src="js/controllers/main.js"></script>
+  <script src="js/controllers/web.js"></script>
+  <script src="js/controllers/zone.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/directives.js"></script>
+  <script src="js/custom.js"></script>
+</body>
+
+</html>
+
