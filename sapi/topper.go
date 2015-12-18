@@ -20,8 +20,11 @@ type LedSequence struct {
 }
 
 type ToperStatus struct {
-	SequenceId int `json:"sequence_id"`
-	Speed      int `json:"speed"`
+	Status           string `json:"status"`
+	SequenceId       int    `json:"sequence_id"`
+	Speed            int    `json:"speed"`
+	SequenceData     string `json:"sequence_data"`
+	SequencePosition int    `json:"sequence_position"`
 }
 
 var dataPin = "8"
@@ -29,6 +32,7 @@ var clockPin = "5"
 var latchPin = "4"
 var firmataAdaptor *firmata.FirmataAdaptor
 
+var sequences = [][]string{}
 var seq1 = []string{"00000001", "00000010", "00000100", "00001000", "00010000", "00100000", "01000000", "10000000"}
 var seq2 = []string{"11111110", "11111101", "11111011", "11110111", "11101111", "11011111", "10111111", "01111111"}
 var seq3 = []string{"00010001", "00100010", "01000100", "10001000", "00010001", "00100010", "01000100", "10001000"}
@@ -47,9 +51,15 @@ func TopperList() ([]*LedSequence, error) {
 	return ls, nil
 }
 
-func initTopper() {
+func TopperInit() {
 	firmataAdaptor = firmata.NewFirmataAdaptor("arduino", "/dev/ttyUSB0")
 	//led := gpio.NewLedDriver(firmataAdaptor, "led", "13")
+	Status.Topper.Status = "stopped"
+	sequences = append(sequences, seq1)
+	sequences = append(sequences, seq2)
+	sequences = append(sequences, seq3)
+	sequences = append(sequences, seq4)
+	sequences = append(sequences, seq5)
 }
 
 func updateLeds(values string) (err error) {
@@ -72,8 +82,25 @@ func updateLeds(values string) (err error) {
 	return err
 }
 
+func RunSequence(seqId int, speed int) {
+	Status.Topper.Status = "running"
+	for true {
+		next := sequences[seqId-1][Status.Topper.SequencePosition]
+		updateLeds(next)
+		Status.Topper.SequencePosition += 1
+		if Status.Topper.SequencePosition > 7 {
+			Status.Topper.SequencePosition = 0
+		}
+		//time.Sleep(Status.Topper.Speed * time.Millisecond)
+		time.Sleep(500 * time.Millisecond)
+	}
+}
+
 func TopperSetSequence(seqId int, speed int) error {
 	logD.Println("Topper sequence ", seqId)
-
+	Status.Topper.SequenceId = seqId
+	Status.Topper.Speed = speed
+	Status.Topper.SequenceData = ""
+	go RunSequence(seqId, speed)
 	return nil
 }
