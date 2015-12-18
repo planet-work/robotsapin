@@ -12,9 +12,9 @@ import (
 // @Title TopperList
 // @Description Retrieve the list of available topper sequences
 // @Accept  json
-// @Success 200 {object} sapi.TopperSequence
+// @Success 200 {object} sapi.LedSequence
 // @Failure 406 {object} error "Bad bad bad"
-// @Router /music/ [get]
+// @Router /topper/ [get]
 func TopperList(c *gin.Context) {
 	sl, err := sapi.TopperList()
 	if err == nil {
@@ -29,7 +29,7 @@ func TopperList(c *gin.Context) {
 // @Accept  json
 // @Success 200 {object} sapi.Song
 // @Failure 406 {object} error "Bad bad bad"
-// @Router /music/:filename [get]
+// @Router /topper/:seqId [get]
 func TopperGet(c *gin.Context) {
 	var seqId, speed int
 	var err error

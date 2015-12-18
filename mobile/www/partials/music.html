@@ -1,0 +1,13 @@
+
+<div align="left" style="margin-top: 15%" XngController="MusicCtrl as music">
+
+	<a ng-click="Pause()" class="btn btn-primary"><i class="fa fa-pause"></i></a>
+	<a ng-click="Stop()" class="btn btn-primary"><i class="fa fa-stop"></i></a>
+	<a ng-click="VolDown()" class="btn btn-primary"><i class="fa fa-minus"></i></a>
+	<a ng-click="VolUp()" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+	<p>Status : {{main.status.music }}</p>
+
+	<ul class="list-group">
+		<li class="list-group-item" ng-repeat="s in songs">{{s.attributes.filename}} <a ng-click="Play(s.attributes.filename)" class="btn btn-primary"><i class="fa fa-play"></i></a></li>
+	</ul>
+</div>

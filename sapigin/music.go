@@ -12,7 +12,7 @@ import (
 // @Title MusicListGet
 // @Description Retrieve the list of available music
 // @Accept  json
-// @Success 200 {object} sapi.Organization
+// @Success 200 {object} sapi.Song
 // @Failure 406 {object} error "Bad bad bad"
 // @Router /music/ [get]
 func MusicListGet(c *gin.Context) {

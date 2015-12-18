@@ -4,7 +4,7 @@
 var sapinAppServices = angular.module('sapinApp.services', ['ngResource']);
 
 sapinAppServices.value('version', '0.0.1');
-sapinAppServices.value('api_prefix', './api');
+sapinAppServices.value('api_prefix', './sapi');
 
 sapinAppServices.factory('Token', ['$window',
   function($window) {
@@ -63,24 +63,59 @@ sapinAppServices.factory('APIInterceptor', ['$q', '$rootScope', 'Token',
   }
 ]);
 
-sapinAppServices.factory('Database', ['$resource', 'api_prefix',
+
+sapinAppServices.factory('Status', ['$resource', 'api_prefix',
   function($resource, api_prefix) {
-    return $resource(api_prefix + '/database/:databaseId', {}, {
+    return $resource(api_prefix + '/status', {}, {
+      get: {
+        method: 'GET',
+      },
+    });
+  }
+]);
+
+
+
+sapinAppServices.factory('Music', ['$resource', 'api_prefix',
+  function($resource, api_prefix) {
+    return $resource(api_prefix + '/music/:filename', {}, {
       get: {
         method: 'GET',
         params: {
-          databaseId: ''
+          filename: ''
         },
       },
-      'query': {
-        method: 'GET',
-        url: api_prefix + '/database/',
+      'play': {
+        method: 'POST',
+        url: api_prefix + '/music/' + 'Rene-la-taupe.mp3',
         isArray: false,
       },
-      'update': {
+      'pause': {
         method: 'PUT',
+        url: api_prefix + '/music/pause',
         params: {
-          databaseId: ''
+          filename: ''
+        },
+      },
+      'stop': {
+        method: 'PUT',
+        url: api_prefix + '/music/stop',
+        params: {
+          filename: ''
+        },
+      },
+      'volup': {
+        method: 'PUT',
+        url: api_prefix + '/music/volume+',
+        params: {
+          filename: ''
+        },
+      },
+      'voldown': {
+        method: 'PUT',
+        url: api_prefix + '/music/volume-',
+        params: {
+          filename: ''
         },
       },
 

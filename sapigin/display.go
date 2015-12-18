@@ -12,7 +12,7 @@ import (
 // @Title DisplayList
 // @Description Retrieve the list of available pictures
 // @Accept  json
-// @Success 200 {object} sapi.Organization
+// @Success 200 {object} sapi.Image
 // @Failure 406 {object} error "Bad bad bad"
 // @Router /display/ [get]
 func DisplayList(c *gin.Context) {
@@ -43,7 +43,7 @@ func DisplayPost(c *gin.Context) {
 // @Title DisplayPostData
 // @Description Display image data from paratemerts
 // @Accept  json
-// @Success 200 {object} OK
+// @Success 200 {object} string
 // @Failure 406 {object} error "Bad bad bad"
 // @Router /display/ [post]
 func DisplayPostData(c *gin.Context) {

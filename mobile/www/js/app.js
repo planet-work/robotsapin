@@ -67,15 +67,15 @@ angular.module('sapinApp', [
           url: "/notfound",
           templateUrl: "partials/notfound.html"
         })
-        .state('dashboard', {
-          url: "/dashboard",
+        .state('music', {
+          url: "/music",
           views: {
             'sidebar': {
               templateUrl: 'partials/sidebar.html',
             },
             'content': {
-              templateUrl: 'partials/dashboard.html',
-              controller: 'DashboardCtrl'
+              templateUrl: 'partials/music.html',
+              controller: 'MusicCtrl'
             }
           }
         })

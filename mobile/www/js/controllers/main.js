@@ -13,10 +13,14 @@ angular.module('sapinApp.controllers')
   }
 ])
 
-.controller('MainCtrl', ['$rootScope', '$scope',
-  function($rootScope, $scope) {
+.controller('MainCtrl', ['$rootScope', '$scope','Status',
+  function($rootScope, $scope,Status) {
 
+	var mainctrl = this;
     $scope.alerts = [];
+	Status.get().$promise.then(function(resource) {
+		mainctrl.status = resource.data.attributes;
+	});
 
     $rootScope.$on('evBadGateway', function(event) {
       $scope.addAlert(event);

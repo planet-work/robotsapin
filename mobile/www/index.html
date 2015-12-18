@@ -37,12 +37,14 @@
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right pull-right" style="text-align: right" ng-hide="$state.is('login')" ng-class="ng-hide">
           <li>
-            <a ui-sref="dashboard" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.dashboard' | translate }}</a>
+			  <a ui-sref="status" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-tree"></i> {{ 'ui.status' | translate }}</a>
           </li>
           <li>
-            <a ui-sref="hosting.list" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.hosting' | translate }}</a>
+			  <a ui-sref="music" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-music"></i> {{ 'ui.music' | translate }}</a>
           </li>
-          <li><a ui-sref="logout" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse">{{ 'ui.logout' | translate }}</a>
+		  <li><a ui-sref="display" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-photo"></i> {{ 'ui.display' | translate }}</a>
+			  <li><a ui-sref="topper" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-star"></i> {{ 'ui.topper' | translate }}</a>
+				  <li><a ui-sref="sensors" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-area-chart"></i> {{ 'ui.sensors' | translate }}</a>
          </li>
           <li dropdown class="dropdown hidden-xs">
                           <a href="#" class="dropdown-toggle" dropdown-toggle>{{ contact_id }} <b class="caret"></b>
@@ -76,7 +78,7 @@
   <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-  <div class="container-fluid">
+  <div class="container-fluid"  ng-controller="MainCtrl as main">
     <div class="row row-offcanvas row-offcanvas-left">
       <div ui-view="sidebar"></div>
       <div ui-view="content"></div>
@@ -85,7 +87,7 @@
 
   <footer>
     <div>
-      <p class="pull-right">state: {{$state.current.name}} - <span>sapinApp v</span><span app-version></span>
+		<p class="pull-right">state: {{$state.current.name}} - <span>sapinApp v</span><span app-version></span> <a href="https://sapin.io/doc/index.html?url=/v0/">API</a>
       </p>
     </div>
   </footer>
@@ -112,6 +114,7 @@
   <script src="js/services.js"></script>
   <script src="js/controllers/controllers.js"></script>
   <script src="js/controllers/main.js"></script>
+  <script src="js/controllers/music.js"></script>
   <script src="js/filters.js"></script>
   <script src="js/directives.js"></script>
   <script src="js/custom.js"></script>
