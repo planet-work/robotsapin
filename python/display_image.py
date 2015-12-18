@@ -4,6 +4,7 @@ import time
 import sys
 import os
 import base64
+import StringIO
 from PIL import Image  # pillow
 from sense_hat import SenseHat
 
@@ -17,7 +18,15 @@ except IndexError:
     img = Image.new( 'RGB', (8,8), "black")
     pixels = img.load()
     ## Set pixels ... 
-    print base64.b64encode(img._repr_png_())
+    idx = 0
+    for i in range(8):
+        for j in range(8):
+            pixels[i,j] = tuple(display_pixels[idx])
+            idx += 1
+    img = img.rotate(-90)
+    output = StringIO.StringIO()
+    img.save(output,format="PNG")
+    print base64.b64encode(output.getvalue())
     sys.exit(0)
 
 if os.path.exists(sys.argv[1]):

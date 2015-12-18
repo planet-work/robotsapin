@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('sapinApp.controllers').controller('MusicCtrl', function($scope, $stateParams, $filter, $translate, Music) {
+angular.module('sapinApp.controllers').controller('MusicCtrl', function($scope, $stateParams, $filter, $translate, Music,$rootScope,$http) {
 
 	var musicctrl = this;
     musicctrl.songs =[];
@@ -38,6 +38,9 @@ angular.module('sapinApp.controllers').controller('MusicCtrl', function($scope, 
     
 	$scope.Play = function(song) {
 		console.log("Play music " + song);
-		Music.play({"filename": song});
+        $http.post(api_prefix + '/music/' + song);
+		//$rootScope.filename = song;
+        //Music.play({filename: song});
+		//$rootScope.$broadcast('updateStatus');
 	};
 });

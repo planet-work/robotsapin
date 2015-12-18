@@ -37,7 +37,7 @@ func DisplayList() ([]*Image, error) {
 			}
 			defer f.Close()
 			data, _ = ioutil.ReadAll(f)
-			i.Data = base64.URLEncoding.EncodeToString(data)
+			i.Data = base64.StdEncoding.EncodeToString(data)
 			/*
 				res, err := ReadId3V1Tag(Settings.MusicDir + "/" + f.Name())
 				if err != nil {
@@ -70,7 +70,7 @@ func DisplayImage(filename string) (string, error) {
 	}
 	defer f.Close()
 	data, _ := ioutil.ReadAll(f)
-	Status.Display.ImageData = base64.URLEncoding.EncodeToString(data)
+	Status.Display.ImageData = base64.StdEncoding.EncodeToString(data)
 
 	cmd := exec.Command(Settings.DisplayProg, Settings.PictureDir+"/"+filename)
 	//var out bytes.Buffer

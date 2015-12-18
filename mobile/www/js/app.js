@@ -1,5 +1,7 @@
 'use strict';
 
+var api_prefix = './sapi';
+
 angular.module('fui',['fui.radio']);
 // Declare app level module which depends on filters, and servicesi
 angular.module('sapinApp', [
@@ -79,13 +81,39 @@ angular.module('sapinApp', [
             }
           }
         })
-        .state('database.mysql.detail', {
-          url: "/{mysqldbId}",
+        .state('display', {
+          url: "/display",
           views: {
-            'sidebar@database': {},
-            'content@database': {
-              templateUrl: 'partials/database/mysql/detail.html',
-              controller: 'DatabaseMysqlDetailCtrl',
+            'sidebar': {
+              templateUrl: 'partials/sidebar.html',
+            },
+            'content': {
+              templateUrl: 'partials/display.html',
+              controller: 'DisplayCtrl'
+            }
+          }
+        })
+        .state('topper', {
+          url: "/topper",
+          views: {
+            'sidebar': {
+              templateUrl: 'partials/sidebar.html',
+            },
+            'content': {
+              templateUrl: 'partials/topper.html',
+              controller: 'TopperCtrl'
+            }
+          }
+        })
+        .state('sensors', {
+          url: "/sensors",
+          views: {
+            'sidebar': {
+              templateUrl: 'partials/sidebar.html',
+            },
+            'content': {
+              templateUrl: 'partials/sensors.html',
+              controller: 'SensorsCtrl'
             }
           }
         });

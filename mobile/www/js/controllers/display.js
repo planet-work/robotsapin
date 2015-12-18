@@ -1,15 +1,34 @@
-use strict';
+'use strict';
 
-angular.module('sapinApp.controllers').controller('DatabaseAggregateCtrl', function($scope, $stateParams, $filter, $translate, NgTableParams, TableTricks, Database, MysqlDb) {
+angular.module('sapinApp.controllers').controller('DisplayCtrl', function($scope, $stateParams, $filter, $translate, Display,$rootScope,$http) {
 
-  $scope.addCollapsed = true;
-  $scope.newDatabase = {
-    type: 'person',
-    lang: 'fr'
-  }
-  $scope.langs = ['fr'];
-  $scope.navPills = [{
-    "name": "mysqldbs",
-    "active": false
-  }]
+	var displayctrl = this;
+    displayctrl.images =[];
+
+    this.ListDisplay = function() {
+        Display.get({},
+  function success(result) {
+      displayctrl.songs = result.data;
+      $scope.images = result.data;
+    }, function failure(httpResponse) {
+      $scope.erf = "mouarf";
+      console.log("err: " + httpResponse);
+    });
+
+
+	};	
+
+	this.ListDisplay();
+
+	$scope.Clear = function() {
+        Display.clear();
+	};
+
+	$scope.Show = function(image) {
+		console.log("Display image " + image);
+        $http.post(api_prefix + '/display/' + image);
+		//$rootScope.filename = song;
+        //Display.play({filename: song});
+		//$rootScope.$broadcast('updateStatus');
+	};
 });

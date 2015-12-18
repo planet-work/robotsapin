@@ -1,13 +1,37 @@
 
-<div align="left" style="margin-top: 15%" XngController="MusicCtrl as music">
+<div align="left" style="margin-top: 10%" XngController="MusicCtrl as music">
 
-	<a ng-click="Pause()" class="btn btn-primary"><i class="fa fa-pause"></i></a>
-	<a ng-click="Stop()" class="btn btn-primary"><i class="fa fa-stop"></i></a>
-	<a ng-click="VolDown()" class="btn btn-primary"><i class="fa fa-minus"></i></a>
-	<a ng-click="VolUp()" class="btn btn-primary"><i class="fa fa-plus"></i></a>
-	<p>Status : {{main.status.music }}</p>
+  <div class="panel panel-primary">
+    <div class="panel-heading">	
+		<h4><i class="fa fa-music"></i>&nbsp; {{ 'ui.music' | translate }}</h4>
+	</div>
+   <div class="panel-body"> 
+	<div class="btn-toolbar" role="toolbar">
+	  <div class="btn-group" role="group">
+	    <button ng-click="Pause()" class="btn btn-primary" ng-if="main.status.music.status=='playing'"><i class="fa fa-pause"></i></button>
+	    <button ng-click="Pause()" class="btn btn-primary" ng-disabled="!main.status.music.filename" ng-if="main.status.music.status=='paused' || main.status.music.status == 'stopped'"><i class="fa fa-play"></i></button>
+	    <button ng-click="Stop()" class="btn btn-primary" ng-disabled="main.status.music.status=='stopped'"><i class="fa fa-stop"></i></button>
+      </div>
+	  <div class="btn-group" role="group">
+	    <button ng-click="VolDown()" class="btn btn-primary"><i class="fa fa-volume-down"></i></button>
+	    <button ng-click="VolUp()" class="btn btn-primary"><i class="fa fa-volume-up"></i></button>
+      </div>
+	  <div class="btn-group" role="group">
+	    <button class="btn"><em>{{main.status.music.status}}</em> {{main.status.music.filename }}</button>
+	  </div>
+	</div>
 
+<div class="progress" style="margin-top: 4px;">
+  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{main.status.music.position}}" aria-valuemin="0" aria-valuemax="100" style="width: {{main.status.music.position*100/main.status.music.duration}}%">
+	<span class="sr-only">{{main.status.music.position*100/main.status.music.duration}}% Complete</span>
+  </div>
+</div>
+
+	</div>
 	<ul class="list-group">
-		<li class="list-group-item" ng-repeat="s in songs">{{s.attributes.filename}} <a ng-click="Play(s.attributes.filename)" class="btn btn-primary"><i class="fa fa-play"></i></a></li>
+		<li><a class="list-group-item" ng-repeat="s in songs" ng-click="Play(s.attributes.filename)">{{s.attributes.filename}} <span class="badge" style="padding:7px 10px;"><i class="fa fa-play"></i></span></a></li>
 	</ul>
+
+</div>
+	<pre class="well well-sm">{{main.status.music}}</pre>
 </div>

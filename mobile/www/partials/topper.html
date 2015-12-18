@@ -1,0 +1,23 @@
+
+<div align="left" style="margin-top: 10%">
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">	
+		<h4><i class="fa fa-star"></i>&nbsp; {{ 'ui.topper' | translate }}</h4>
+	</div>
+   <div class="panel-body"> 
+   <div>
+    <img src="/images/topper.jpg" width="200">
+    <img src="data:image/gif;base64,{{main.status.topper}}" width="100px" style="position:absolute;margin-top:32px; margin-left:-179px;">
+   </div>
+
+	</div>
+	<div class="row">
+        <div class="col-xs-1 col-md-2" ng-repeat="s in sequences">
+		<a class="thumbnail" ng-click="Show(s.attributes.filename)"><img src="data:image/png;base64,{{s.attributes.data}}" width="100px"></a>
+        </div>
+	</div>
+
+</div>
+	<pre class="well well-sm">{{main.status.topper}}</pre>
+</div>

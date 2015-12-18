@@ -34,6 +34,12 @@ angular.module('sapinApp.controllers')
       $scope.addAlert(event);
     });
 
+
+    $rootScope.$on('updateStatus', function(event) {
+	    Status.get().$promise.then(function(resource) {
+		    mainctrl.status = resource.data.attributes;
+	    });
+	});
     /*$rootScope.$on('evForbidden', function(event) {
       $scope.addAlert(event);
     });*/

@@ -4,7 +4,7 @@
 var sapinAppServices = angular.module('sapinApp.services', ['ngResource']);
 
 sapinAppServices.value('version', '0.0.1');
-sapinAppServices.value('api_prefix', './sapi');
+sapinAppServices.value('api_prefix', api_prefix);
 
 sapinAppServices.factory('Token', ['$window',
   function($window) {
@@ -35,6 +35,9 @@ sapinAppServices.factory('APIInterceptor', ['$q', '$rootScope', 'Token',
       },
       'response': function(response) {
         // do something on success
+		if (response.config.method != 'GET') {
+		    $rootScope.$broadcast('updateStatus');
+		}
         return response;
       },
       'responseError': function(rejection) {
@@ -76,8 +79,8 @@ sapinAppServices.factory('Status', ['$resource', 'api_prefix',
 
 
 
-sapinAppServices.factory('Music', ['$resource', 'api_prefix',
-  function($resource, api_prefix) {
+sapinAppServices.factory('Music', ['$resource', 'api_prefix','$rootScope',
+  function($resource, api_prefix,$rootScope) {
     return $resource(api_prefix + '/music/:filename', {}, {
       get: {
         method: 'GET',
@@ -86,9 +89,12 @@ sapinAppServices.factory('Music', ['$resource', 'api_prefix',
         },
       },
       'play': {
-        method: 'POST',
-        url: api_prefix + '/music/' + 'Rene-la-taupe.mp3',
-        isArray: false,
+		method: 'POST',
+		url: api_prefix + '/music/',
+        params: {
+          filename: ''
+        },
+		isArray: false,
       },
       'pause': {
         method: 'PUT',
@@ -123,3 +129,51 @@ sapinAppServices.factory('Music', ['$resource', 'api_prefix',
   }
 ]);
 
+sapinAppServices.factory('Display', ['$resource', 'api_prefix','$rootScope',
+  function($resource, api_prefix,$rootScope) {
+    return $resource(api_prefix + '/display/:filename', {}, {
+      get: {
+        method: 'GET',
+        params: {
+          filename: ''
+        },
+      },
+      'show': {
+		method: 'POST',
+		url: api_prefix + '/display/',
+        params: {
+          filename: ''
+        },
+		isArray: false,
+      },
+      'clear': {
+        method: 'PUT',
+        url: api_prefix + '/display/clear',
+        params: {
+          filename: ''
+        },
+      }
+    });
+  }
+]);
+
+sapinAppServices.factory('Topper', ['$resource', 'api_prefix','$rootScope',
+  function($resource, api_prefix,$rootScope) {
+    return $resource(api_prefix + '/topper/:filename', {}, {
+      get: {
+        method: 'GET',
+        params: {
+          filename: ''
+        },
+      },
+      'show': {
+		method: 'POST',
+		url: api_prefix + '/topper/',
+        params: {
+          filename: ''
+        },
+		isArray: false,
+      }
+    });
+  }
+]);
