@@ -50,6 +50,8 @@ type APISettings struct {
 	DbPath        string `json:"db_path"`
 	MusicDir      string `json:"music_dir"`
 	PictureDir    string `json:"pictures_dir"`
+	DisplayProg   string `json:"display_prog"`
+	SensorsProg   string `json:"sensors_prog"`
 	AdminPassword string `json:"admin_password"`
 }
 

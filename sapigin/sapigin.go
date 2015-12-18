@@ -1,25 +1,3 @@
-// Package Sapin API (Christmas Tree API).
-//
-// the purpose of this application is to control a Christmas Tree
-//
-// Terms Of Service:
-//
-// there are no TOS at this moment, use at your own risk we take no responsibility
-//
-//     Schemes: http, https
-//     Host: api.sapin.io
-//     BasePath: /v1
-//     Version: 0.0.1
-//     License: MIT http://opensource.org/licenses/MIT
-//     Contact: Frederic VANNIRE<f.vanniere@planet-work.com> https://www.planet-work.com/
-//
-//     Consumes:
-//     - application/json
-//
-//     Produces:
-//     - application/json
-//
-// swagger:meta
 package main
 
 // @APIVersion 1.0.0
@@ -292,16 +270,15 @@ func init() {
 		music.PUT("/volume-", MusicPutVolumeDown)
 	}
 	display := Engine.Group("/display")
-	//	display.Use(AuthRequired())
 	{
 		display.GET("/", DisplayList)
 		display.POST("/:filename", DisplayPost)
-		display.POST("", DisplayPostData)
+		display.POST("/", DisplayPostData)
 	}
 	topper := Engine.Group("/topper")
 	{
 		topper.GET("/", TopperList)
-		topper.GET("/:seqId", TopperGet)
+		topper.POST("/:seqId", TopperGet)
 		//topper.POST("", DisplayData)
 	}
 	apidoc := Engine.Group("/api-doc")

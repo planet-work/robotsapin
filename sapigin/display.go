@@ -9,12 +9,12 @@ import (
 	"github.com/planet-work/robotsapin/sapi"
 )
 
-// @Title DisplayListGet
-// @Description Retrieve the list of available music
+// @Title DisplayList
+// @Description Retrieve the list of available pictures
 // @Accept  json
 // @Success 200 {object} sapi.Organization
 // @Failure 406 {object} error "Bad bad bad"
-// @Router /music/ [get]
+// @Router /display/ [get]
 func DisplayList(c *gin.Context) {
 	sl, err := sapi.DisplayList()
 	if err == nil {
@@ -24,27 +24,33 @@ func DisplayList(c *gin.Context) {
 	SapiGinError(c, err)
 }
 
-// @Title DisplayGet
-// @Description Play song
+// @Title DisplayPost
+// @Description Display giver image from parameters
 // @Accept  json
 // @Success 200 {object} sapi.Song
 // @Failure 406 {object} error "Bad bad bad"
-// @Router /music/:filename [get]
+// @Router /display/:filename [post]
 func DisplayPost(c *gin.Context) {
 	filename := c.Params.ByName("filename")
-	err := sapi.DisplayImage(filename)
+	img, err := sapi.DisplayImage(filename)
 	if err == nil {
-		c.JSON(http.StatusOK, SapiGinArrayResponse("OK"))
+		c.JSON(http.StatusOK, SapiGinResponse(img))
 		return
 	}
 	SapiGinError(c, err)
 }
 
+// @Title DisplayPostData
+// @Description Display image data from paratemerts
+// @Accept  json
+// @Success 200 {object} OK
+// @Failure 406 {object} error "Bad bad bad"
+// @Router /display/ [post]
 func DisplayPostData(c *gin.Context) {
 	data := c.Params.ByName("data")
-	err := sapi.DisplayData(data)
+	img, err := sapi.DisplayData(data)
 	if err == nil {
-		c.JSON(http.StatusOK, SapiGinArrayResponse("OK"))
+		c.JSON(http.StatusOK, SapiGinResponse(img))
 		return
 	}
 	SapiGinError(c, err)

@@ -16,8 +16,8 @@ type Image struct {
 
 type DisplayStatus struct {
 	Status    string `json:"status"`
-	ImageName string `json:"img_name"`
-	ImageData string `json:"imgdata"`
+	ImageName string `json:"image_name"`
+	ImageData string `json:"image_data"`
 }
 
 func DisplayList() ([]*Image, error) {
@@ -49,18 +49,32 @@ func DisplayList() ([]*Image, error) {
 	return il, nil
 }
 
-func DisplayData(data string) error {
+func DisplayData(data string) (string, error) {
 	logD.Println("Displaying image from data")
-	cmd := exec.Command("python/displayimg.py ", data)
+	cmd := exec.Command(Settings.DisplayProg, data)
 	err := cmd.Run()
-	return err
+	Status.Display.Status = "display"
+	Status.Display.ImageName = "POST"
+	Status.Display.ImageData = data
+	return data, err
 }
 
-func DisplayImage(filename string) error {
+func DisplayImage(filename string) (string, error) {
 	logD.Println("Displaying image ", filename)
-	cmd := exec.Command("python/displayimg.py ", Settings.PictureDir+"/"+filename)
+	Status.Display.Status = "display"
+	Status.Display.ImageName = filename
+	f, err := os.Open(Settings.PictureDir + "/" + filename)
+	if err != nil {
+		logE.Println(err)
+		return "", err
+	}
+	defer f.Close()
+	data, _ := ioutil.ReadAll(f)
+	Status.Display.ImageData = base64.URLEncoding.EncodeToString(data)
+
+	cmd := exec.Command(Settings.DisplayProg, Settings.PictureDir+"/"+filename)
 	//var out bytes.Buffer
 	//cmd.Stdout = &out
-	err := cmd.Run()
-	return err
+	_ = cmd.Run()
+	return Status.Display.ImageData, nil
 }
