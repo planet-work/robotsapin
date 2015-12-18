@@ -286,6 +286,10 @@ func init() {
 		//music.POST("/:filename", MusicPost)
 		music.GET("/", MusicListGet)
 		music.POST("/:filename", MusicPost)
+		music.PUT("/pause", MusicPutPause)
+		music.PUT("/stop", MusicPutStop)
+		music.PUT("/volume+", MusicPutVolumeUp)
+		music.PUT("/volume-", MusicPutVolumeDown)
 	}
 	display := Engine.Group("/display")
 	//	display.Use(AuthRequired())

@@ -212,6 +212,7 @@ func Setup() {
 	} else {
 		logE.Fatal(err)
 	}
+	MusicInit()
 }
 
 func initLogger(debugHandler, infoHandler, errorHandler io.Writer) {

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"os/exec"
+	//	"strconv"
 	"strings"
 )
 
@@ -29,10 +29,22 @@ type Song struct {
 }
 
 type MusicStatus struct {
-	Status   string `json:"status"`
-	SongName string `json:"song_name"`
-	Filename string `json:"filename"`
-	Position int    `json:"position"`
+	Status   string  `json:"status"`
+	SongName string  `json:"song_name"`
+	Filename string  `json:"filename"`
+	Position float64 `json:"position"`
+	Duration float64 `json:"duration"`
+	Volume   int     `json:"volume"`
+}
+
+var player Mp3Player = *NewMp3Player()
+
+func MusicInit() {
+	Status.Music.Volume = 100
+	Status.Music.Status = "stopped"
+	Status.Music.Position = 0
+	Status.Music.Duration = 0
+	player.Spawn()
 }
 
 func byteString(b []byte) string {
@@ -120,34 +132,66 @@ func MusicPost() error {
 
 func MusicPlay(filename string) error {
 	logD.Println("Playing ", filename)
-	Status.Music.Status = "..."
+	Status.Music.Status = "playing"
 	Status.Music.Filename = filename
 	Status.Music.SongName = filename
-	go func() {
-		logD.Println("mpg123", Settings.MusicDir+"/"+filename)
-		cmd := exec.Command("mpg123", "-R") //, Settings.MusicDir+"/"+filename)
-		stdin, err := cmd.StdinPipe()
-		if err != nil {
-			logE.Println(err)
+	player.Play(filename)
+
+	/*
+		r := bufio.NewReader(stdout)
+		line, _, _ := r.ReadLine()
+		logD.Println(".......", line, "::::::::::::")
+		for scanner2.Scan() {
+			line := scanner2.Text()
+			status := strings.Split(string(line), " ")
+			if status[0] == "@F" {
+				Status.Music.Position, _ = strconv.ParseFloat(status[3], 32)
+				if Status.Music.Duration == 0 {
+					Status.Music.Duration, _ = strconv.ParseFloat(status[4], 32)
+				}
+			} else {
+				logD.Println(status[0], ":::::", line)
+			}
 		}
-		stdout, err := cmd.StdoutPipe()
-		if err != nil {
-			logE.Println(err)
-		}
-		if err := cmd.Start(); err != nil {
-			logE.Println(err)
-		}
-		Status.Music.Status = "playing"
-		stdin.Write([]byte("LOAD" + Settings.MusicDir + "/" + filename))
-		x, _ := stdout.Reader.ReadString('\n')
-		if err := cmd.Wait(); err != nil {
-			logE.Println(err)
-		}
-		//Status.Music.Status = "stopped"
+		Status.Music.Status = "stopped"
 		logD.Println("Song terminated")
-	}()
+	}()*/
 	//var out bytes.Buffer
 	//cmd.Stdout = &out
 	logD.Println("Return XXX")
 	return nil
+}
+
+func MusicPause() error {
+	if Status.Music.Status == "paused" {
+		Status.Music.Status = "playing"
+	} else {
+		Status.Music.Status = "paused"
+	}
+	player.Pause()
+	return nil
+}
+
+func MusicStop() error {
+	Status.Music.Status = "stopped"
+	player.Stop()
+	return nil
+}
+
+func MusicVolumeUp() (int, error) {
+	Status.Music.Volume += 10
+	if Status.Music.Volume > 100 {
+		Status.Music.Volume = 100
+	}
+	player.Gain(Status.Music.Volume)
+	return Status.Music.Volume, nil
+}
+
+func MusicVolumeDown() (int, error) {
+	Status.Music.Volume -= 10
+	if Status.Music.Volume < 0 {
+		Status.Music.Volume = 0
+	}
+	player.Gain(Status.Music.Volume)
+	return Status.Music.Volume, nil
 }
