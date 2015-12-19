@@ -87,8 +87,8 @@ func updateLeds(values string) (err error) {
 func RunSequence(seqId int, speed int) {
 	Status.Topper.Status = "running"
 	for true {
-		next := sequences[seqId-1][Status.Topper.SequencePosition]
-		updateLeds(next)
+		//next := sequences[seqId-1][Status.Topper.SequencePosition]
+		//updateLeds(next)
 		Status.Topper.SequencePosition += 1
 		if Status.Topper.SequencePosition > 7 {
 			Status.Topper.SequencePosition = 0

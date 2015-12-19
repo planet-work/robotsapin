@@ -166,11 +166,19 @@ sapinAppServices.factory('Topper', ['$resource', 'api_prefix','$rootScope',
           filename: ''
         },
       },
-      'show': {
+      'start': {
 		method: 'POST',
 		url: api_prefix + '/topper/',
         params: {
           filename: ''
+        },
+		isArray: false,
+      },
+      'speed': {
+		method: 'PUT',
+		url: api_prefix + '/topper/speed',
+        params: {
+          speed: ''
         },
 		isArray: false,
       }

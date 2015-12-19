@@ -20,11 +20,12 @@ angular.module('sapinApp.controllers').controller('TopperCtrl', function($scope,
 
 	this.ListTopper();
 
-	$scope.Show = function(image) {
+	$scope.Start = function(seqId) {
 		console.log("Topper LED sequence " + seqId);
-        $http.post(api_prefix + '/topper/' + image);
-		//$rootScope.filename = song;
-        //Topper.play({filename: song});
-		//$rootScope.$broadcast('updateStatus');
+        $http.post(api_prefix + '/topper/' + seqId);
+	};
+
+	$scope.SetSpeed = function (speed) {
+		Topper.speed(speed);
 	};
 });

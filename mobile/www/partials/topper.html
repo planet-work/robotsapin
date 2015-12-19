@@ -13,7 +13,7 @@
 	</div>
 	<div class="row">
         <div class="col-xs-1 col-md-2" ng-repeat="s in sequences">
-		<a class="thumbnail" ng-click="Show(s.attributes.filename)"><img src="data:image/png;base64,{{s.attributes.data}}" width="100px"></a>
+		<a class="thumbnail" ng-click="Start(s.attributes.id)"><img src="/images/topper-seq0.gif" ng-src="/images/topper-seq{{s.attributes.id}}.gif" width="100px"></a>
         </div>
 	</div>
 
