@@ -8,13 +8,13 @@
    <div class="panel-body"> 
    <div>
     <img src="/images/sense-hat.jpg" width="200">
-    <img src="data:image/png;base64,{{main.status.display.image_data}}" width="100px" style="position:absolute;margin-top:32px; margin-left:-179px;">
+    <img class="pixel" src="data:image/png;base64,{{main.status.display.image_data}}" width="100px" style="position:absolute;margin-top:33px; margin-left:-179px;">
    </div>
 
 	</div>
 	<div class="row">
         <div class="col-xs-1 col-md-2" ng-repeat="s in images">
-		<a class="thumbnail" ng-click="Show(s.attributes.filename)"><img src="data:image/png;base64,{{s.attributes.data}}" width="100px"></a>
+		<a class="thumbnail" ng-click="Show(s.attributes.filename)"><img class="pixel" src="data:image/png;base64,{{s.attributes.data}}" width="100px"></a>
         </div>
 	</div>
 
