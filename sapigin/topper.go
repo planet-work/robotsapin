@@ -44,7 +44,7 @@ func TopperGet(c *gin.Context) {
 
 	err = sapi.TopperSetSequence(seqId, speed)
 	if err == nil {
-		c.JSON(http.StatusOK, SapiGinArrayResponse("OK"))
+		c.JSON(http.StatusOK, "OK")
 		return
 	}
 	SapiGinError(c, err)

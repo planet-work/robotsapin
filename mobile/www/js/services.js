@@ -185,3 +185,16 @@ sapinAppServices.factory('Topper', ['$resource', 'api_prefix','$rootScope',
     });
   }
 ]);
+
+sapinAppServices.factory('Sensors', ['$resource', 'api_prefix','$rootScope',
+  function($resource, api_prefix,$rootScope) {
+    return $resource(api_prefix + '/sensors/:filename', {}, {
+      get: {
+        method: 'GET',
+        params: {
+          filename: ''
+        },
+      },
+    });
+  }
+]);

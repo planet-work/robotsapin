@@ -42,10 +42,9 @@
           <li>
 			  <a ui-sref="music" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-music"></i> {{ 'ui.music' | translate }}</a>
           </li>
-		  <li><a ui-sref="display" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-photo"></i> {{ 'ui.display' | translate }}</a>
-			  <li><a ui-sref="topper" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-star"></i> {{ 'ui.topper' | translate }}</a>
-				  <li><a ui-sref="sensors" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-area-chart"></i> {{ 'ui.sensors' | translate }}</a>
-         </li>
+		  <li><a ui-sref="display" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-photo"></i> {{ 'ui.display' | translate }}</a></li>
+		  <li><a ui-sref="topper" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-star"></i> {{ 'ui.topper' | translate }}</a></li>
+		  <li><a ui-sref="sensors" class="hidden-sm hidden-md hidden-lg" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-area-chart"></i> {{ 'ui.sensors' | translate }}</a></li>
           <li dropdown class="dropdown hidden-xs">
                           <a href="#" class="dropdown-toggle" dropdown-toggle>{{ contact_id }} <b class="caret"></b>
                                 <span class="dropdown-arrow"></span></a>
@@ -87,7 +86,7 @@
 
   <footer>
     <div>
-		<p class="pull-right">state: {{$state.current.name}} - <span>sapinApp v</span><span app-version></span> <a href="https://sapin.io/doc/index.html?url=/v0/">API</a>
+		<p class="pull-right"><span>sapinApp v</span><span app-version></span> <a href="https://sapin.io/doc/index.html?url=/v0/">REST API</a> - <a href="https://github.com/planet-work/robotsapin/"><i class="fa fa-github"></i></a>
       </p>
     </div>
   </footer>
@@ -117,6 +116,7 @@
   <script src="js/controllers/music.js"></script>
   <script src="js/controllers/display.js"></script>
   <script src="js/controllers/topper.js"></script>
+  <script src="js/controllers/sensors.js"></script>
   <script src="js/filters.js"></script>
   <script src="js/directives.js"></script>
   <script src="js/custom.js"></script>

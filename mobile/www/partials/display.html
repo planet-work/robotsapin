@@ -13,8 +13,8 @@
 
 	</div>
 	<div class="row">
-        <div class="col-xs-1 col-md-2" ng-repeat="s in images">
-		<a class="thumbnail" ng-click="Show(s.attributes.filename)"><img class="pixel" src="data:image/png;base64,{{s.attributes.data}}" width="100px"></a>
+        <div class="col-xs-1 col-md-2" ng-repeat="s in images"  style="min-width: 110px;">
+		<a class="thumbnail" ng-click="Show(s.attributes.filename)"><img class="pixel" src="data:image/png;base64,{{s.attributes.data}}" width="100px" height="100px"></a>
         </div>
 	</div>
 
