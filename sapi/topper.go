@@ -1,9 +1,8 @@
 package sapi
 
 import (
-	"fmt"
 	"github.com/hybridgroup/gobot/platforms/firmata"
-	//"github.com/hybridgroup/gobot/platforms/gpio"
+	"github.com/hybridgroup/gobot/platforms/gpio"
 	"strconv"
 	"time"
 	//	"encoding/base64"
@@ -29,7 +28,9 @@ type ToperStatus struct {
 var dataPin = "8"
 var clockPin = "5"
 var latchPin = "4"
+
 var firmataAdaptor *firmata.FirmataAdaptor
+var led *gpio.LedDriver
 
 var sequences = [][]string{}
 var seq0 = []string{"11111111"}
@@ -52,7 +53,8 @@ func TopperList() ([]*LedSequence, error) {
 
 func TopperInit() {
 	firmataAdaptor = firmata.NewFirmataAdaptor("arduino", "/dev/ttyUSB0")
-	//led := gpio.NewLedDriver(firmataAdaptor, "led", "13")
+	firmataAdaptor.Connect()
+	led = gpio.NewLedDriver(firmataAdaptor, "led", "13")
 	Status.Topper.Status = "stopped"
 	Status.Topper.Speed = 100
 	Status.Topper.Reverse = false
@@ -62,11 +64,12 @@ func TopperInit() {
 	sequences = append(sequences, seq3)
 	sequences = append(sequences, seq4)
 	sequences = append(sequences, seq5)
+	logD.Println("Topper INIT ... dome")
 }
 
 func updateLeds(values string) (err error) {
 	timer := time.Tick(1 * time.Millisecond)
-	fmt.Println("LEDS:", values)
+	//fmt.Println("LEDS:", values)
 
 	firmataAdaptor.DigitalWrite(latchPin, 0)
 	for i := 0; i < 8; i++ {
@@ -87,14 +90,16 @@ func updateLeds(values string) (err error) {
 func RunSequence(seqId int, speed int) {
 	Status.Topper.Status = "running"
 	for true {
-		//next := sequences[seqId-1][Status.Topper.SequencePosition]
-		//updateLeds(next)
+		next := sequences[seqId][Status.Topper.SequencePosition]
+		//logD.Println(next)
+		updateLeds(next)
+		led.Toggle()
 		Status.Topper.SequencePosition += 1
 		if Status.Topper.SequencePosition > 7 {
 			Status.Topper.SequencePosition = 0
 		}
 		//time.Sleep(Status.Topper.Speed * time.Millisecond)
-		time.Sleep(500 * time.Millisecond)
+		time.Sleep(300 * time.Millisecond)
 	}
 }
 
