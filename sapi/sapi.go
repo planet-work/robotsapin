@@ -9,8 +9,10 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"os/signal"
 	"os/user"
 	"strings"
+	"syscall"
 	//"time"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
@@ -216,6 +218,16 @@ func Setup() {
 	}
 	MusicInit()
 	TopperInit()
+
+	c := make(chan os.Signal, 2)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	go func() {
+		s := <-c
+		log.Println("SAPI Got signal: ", s)
+		MusicShutdown()
+		os.Exit(1)
+	}()
+
 }
 
 func initLogger(debugHandler, infoHandler, errorHandler io.Writer) {

@@ -195,3 +195,7 @@ func MusicVolumeDown() (int, error) {
 	player.Gain(Status.Music.Volume)
 	return Status.Music.Volume, nil
 }
+
+func MusicShutdown() {
+	player.Kill()
+}
