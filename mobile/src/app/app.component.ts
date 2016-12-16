@@ -2,8 +2,16 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
-import { Page1 } from '../pages/page1/page1';
-import { Page2 } from '../pages/page2/page2';
+import { StatusPage } from '../pages/status/status';
+import { MusicPage } from '../pages/music/music';
+import { DisplayPage } from '../pages/display/display';
+import { TopperPage } from '../pages/topper/topper';
+import { SensorsPage } from '../pages/sensors/sensors';
+
+
+import { MusicService } from '../providers/music';
+import { DisplayService, DisplayImage } from '../../providers/display';
+import { TopperService } from '../../providers/topper';
 
 
 @Component({
@@ -12,17 +20,21 @@ import { Page2 } from '../pages/page2/page2';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = Page1;
+  rootPage: any = StatusPage;
 
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{ title: string, component: any }>;
 
-  constructor(public platform: Platform) {
+  constructor(public platform: Platform,
+   public music: MusicService) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Page One', component: Page1 },
-      { title: 'Page Two', component: Page2 }
+      { title: 'État', component: StatusPage },
+      { title: 'Musique', component: MusicPage },
+      { title: 'Affichage', component: DisplayPage },
+      { title: 'Étoile', component: TopperPage },
+      { title: 'Capteurs', component: SensorsPage },
     ];
 
   }

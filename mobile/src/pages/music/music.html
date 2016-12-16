@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title><i class="fa fa-music"> </i>Musique</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+<ion-card>
+  <button ion-button icon-only><i class="fa fa-pause"> </i></button>
+  <button ion-button icon-only><i class="fa fa-stop"> </i></button>
+
+ <button ion-button icon-only><i class="fa fa-volume-down"> </i></button>
+ <button ion-button icon-only><i class="fa fa-volume-up"> </i></button>
+  
+</ion-card>
+
+ <ion-list>
+   <ion-item  *ngFor="let s of music.songs">
+        <h2>{{s.name}}</h2>
+        <button ion-button clear item-right icon-only (click)="music.play(s.name)"><i class="fa fa-play"> </i></button>
+   </ion-item>
+ </ion-list>
+
+</ion-content>

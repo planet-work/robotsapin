@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title><i class="fa fa-photo"> </i> Affichage</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <img src="/assets/images/sense-hat.jpg" style="width:200px;">
+    <img class="pixel" src="data:image/png;base64,display.image_data" width="100px" style="position:absolute;margin-top:33px; margin-left:-179px;">
+  </ion-card>
+  <ion-list>
+    <ion-item *ngFor="let i of display.images">
+      <ion-thumbnail item-left>
+        <img class="pixel" src="data:image/png;base64,{{i.data}}" width="100px" height="100px">
+      </ion-thumbnail>
+      <h2>{{i.name}}</h2>
+      <button ion-button clear item-right (click)="display.show(i.name)">Afficher</button>
+    </ion-item>
+  </ion-list>
+</ion-content>

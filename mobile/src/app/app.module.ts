@@ -1,14 +1,28 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { Page1 } from '../pages/page1/page1';
-import { Page2 } from '../pages/page2/page2';
+
+import { StatusPage } from '../pages/status/status';
+import { MusicPage } from '../pages/music/music';
+import { DisplayPage } from '../pages/display/display';
+import { TopperPage } from '../pages/topper/topper';
+import { SensorsPage } from '../pages/sensors/sensors';
+
+import { StatusService } from '../providers/status';
+import { MusicService } from '../providers/music';
+import { DisplayService } from '../providers/display';
+import { TopperService } from '../providers/topper';
+
+
 
 @NgModule({
   declarations: [
     MyApp,
-    Page1,
-    Page2
+    MusicPage,
+    DisplayPage,
+    StatusPage,
+    TopperPage,
+    SensorsPage
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -16,9 +30,13 @@ import { Page2 } from '../pages/page2/page2';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    Page1,
-    Page2
+    MusicPage,
+    DisplayPage,
+    StatusPage,
+    TopperPage,
+    SensorsPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{ provide: ErrorHandler, useClass: IonicErrorHandler },
+                MusicService, DisplayService, TopperService, StatusService]
 })
-export class AppModule {}
+export class AppModule { }

@@ -2,5 +2,9 @@
   "name": "mobile",
   "app_id": "",
   "v2": true,
-  "typescript": true
+  "typescript": true,
+  "proxies": [{
+      "path": "/sapi",
+      "proxyUrl": "http://[2a01:e35:2f68:8182:6307:98d1:7f74:8f03]/sapi"
+  }]
 }
